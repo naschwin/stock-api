@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+yahoo_fin
+pandas
+sklearn
+numpy
+nltk
+gunicorn
+uvloop
+httptools
