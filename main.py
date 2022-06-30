@@ -172,7 +172,7 @@ def greet():
     return {'helo': 'nubs'}
 
 # Stock Price
-@app.post("/stock/{stock_ticker}")
+@app.get("/stock/{stock_ticker}")
 def get_stock(stock_ticker, start_date = "1/1/2014"):
     data = info.get_data(stock_ticker, start_date)
     data.drop(["adjclose", "ticker"], axis=1, inplace=True)
@@ -188,7 +188,7 @@ def predictpage():
     return {'Success': "You've reached predict page"}
 
 # Prediction
-@app.post("/predict/ml/{stock_ticker}")
+@app.get("/predict/ml/{stock_ticker}")
 def predict_ml(stock_ticker):
     data = info.get_data(stock_ticker, start_date="1/1/2014")
     data.drop(["adjclose", "ticker"], axis=1, inplace=True)
@@ -204,12 +204,12 @@ def predict_ml(stock_ticker):
     return {'Prediction':action}
 
 #test
-@app.post("/predict/ml")
+@app.get("/predict/ml")
 def test():
     return {'helo': 'lol'}
 
 # Prediction with Values
-@app.post("/predict/ml/{stock_ticker}/values")
+@app.get("/predict/ml/{stock_ticker}/values")
 def predict_ml_val(stock_ticker):
     data = info.get_data(stock_ticker, start_date="1/1/2014")
     data.drop(["adjclose", "ticker"], axis=1, inplace=True)
@@ -225,7 +225,7 @@ def predict_ml_val(stock_ticker):
     return {'Prediction':action, 'Data': df}
 
 # Sentiment Analysis
-@app.post("/predict/senti/{stock_ticker}")
+@app.get("/predict/senti/{stock_ticker}")
 def predict_senti(stock_ticker):
     data = news.get_yf_rss(stock_ticker)
     articles = [ [i['published_parsed'], i['summary']] for i in data]
@@ -247,7 +247,7 @@ def predict_senti(stock_ticker):
     return {'Prediction':action}
 
 # Sentiment Analysis with Values
-@app.post("/predict/senti/{stock_ticker}/values")
+@app.get("/predict/senti/{stock_ticker}/values")
 def predict_senti_val(stock_ticker):
     data = news.get_yf_rss(stock_ticker)
     articles = [ [i['published_parsed'], i['summary']] for i in data]
@@ -269,7 +269,7 @@ def predict_senti_val(stock_ticker):
     return {'Prediction':action, 'Data': values}
 
 # Get news
-@app.post("/news/{stock_ticker}")
+@app.get("/news/{stock_ticker}")
 def get_news(stock_ticker):
     data = news.get_yf_rss(stock_ticker)
     summaries = [ i['summary'] for i in data]
