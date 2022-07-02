@@ -180,7 +180,7 @@ def get_stock(stock_ticker, start_date = "1/1/2014"):
     the_dt = { i: j for i, j in zip(data.index.astype(str), data.to_dict('records'))}
     the_dt
 
-    return json.dumps(the_dt)
+    return the_dt
 
 
 @app.get('/predict')
@@ -259,7 +259,7 @@ def predict_senti_val(stock_ticker):
     tm = lambda dt: datetime.fromtimestamp(mktime(dt)).date()
     article_df['Date'] = article_df['Date'].apply(tm)
 
-    vader_df, values = vader_predict(article_df)
+    vader_df, values = vader_predict(article_df, True)
 
     if w_avg(vader_df) <= 0:
         action = 'sell'
