@@ -176,6 +176,7 @@ def greet():
 def get_stock(stock_ticker, start_date = "1/1/2014"):
     data = info.get_data(stock_ticker, start_date)
     data.drop(["adjclose", "ticker"], axis=1, inplace=True)
+    data.dropna(inplace = True)
 
     the_dt = { i: j for i, j in zip(data.index.astype(str), data.to_dict('records'))}
     the_dt
