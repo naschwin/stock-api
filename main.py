@@ -272,10 +272,8 @@ def predict_senti_val(stock_ticker):
 @app.get("/news/{stock_ticker}")
 def get_news(stock_ticker):
     data = news.get_yf_rss(stock_ticker)
-    summaries = [ i['summary'] for i in data]
-    links = [ i['link'] for i in data]
 
-    return {'Summaries': summaries, 'Links': links}
+    return [{'Summaries': i['summary'], 'Links': i['link']} for i in data]
 
 
 
