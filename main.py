@@ -126,6 +126,8 @@ def svr_predict(df, vals = False):
 
     actual_Y=ss.inverse_transform(Y_test)[:,0]
     pred_Y=ss.inverse_transform(Y_pred)[:,0]
+    
+    rss = str(r2_score(pred_Y,actual_Y)*100)+"%"
 
     if pred_Y[len(actual_Y)-1] > pred_Y[len(actual_Y) - 2]:
         action = 'buy'
@@ -136,13 +138,13 @@ def svr_predict(df, vals = False):
     df_compare['ActualVal'] = actual_Y
     df_compare['PredictedVal'] = pred_Y
     df_compare.index = Z.index[int(len(Z)*0.7):]
-    df_compare
+    df_compare = df_compare.to_dict('records')
 
 
     if not vals:
-        return action
+        return action, rss
     else:
-        return action, df_compare
+        return action, rss, df_compare
 
 def vader_predict(df, vals = False):
     vader = SentimentIntensityAnalyzer()
@@ -199,9 +201,9 @@ def predict_ml(stock_ticker):
 
     pcor_feature_df = data[["close", "volume", "Rsi", "Macd", "%K"]]
 
-    action = svr_predict(pcor_feature_df)
+    action, acc = svr_predict(pcor_feature_df)
 
-    return {'Prediction':action}
+    return {'Prediction':action, 'Accuracy': acc}
 
 #test
 @app.get("/predict/ml")
@@ -220,9 +222,9 @@ def predict_ml_val(stock_ticker):
 
     pcor_feature_df = data[["close", "volume", "Rsi", "Macd", "%K"]]
 
-    action, df = svr_predict(pcor_feature_df, True)
+    action, acc, df = svr_predict(pcor_feature_df, True)
 
-    return {'Prediction':action, 'Data': df}
+    return {'Prediction':action, 'Accuracy': acc, 'Data': df}
 
 # Sentiment Analysis
 @app.get("/predict/senti/{stock_ticker}")
