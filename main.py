@@ -133,8 +133,8 @@ def svr_predict(df, vals = False):
         action = 'sell'
 
     df_compare = pd.DataFrame()
-    df_compare['Actual Val'] = actual_Y
-    df_compare['Predicted Val'] = pred_Y
+    df_compare['ActualVal'] = actual_Y
+    df_compare['PredictedVal'] = pred_Y
     df_compare.index = Z.index[int(len(Z)*0.7):]
     df_compare
 
