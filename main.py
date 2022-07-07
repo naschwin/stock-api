@@ -138,6 +138,7 @@ def svr_predict(df, vals = False):
     df_compare['ActualVal'] = actual_Y
     df_compare['PredictedVal'] = pred_Y
     df_compare.index = Z.index[int(len(Z)*0.7):]
+    df_compare['Date'] = df_compare.index.astype(str)
     df_compare = df_compare.to_dict('records')
 
 
