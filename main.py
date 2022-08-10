@@ -127,7 +127,9 @@ def svr_predict(df, vals = False):
     actual_Y=ss.inverse_transform(Y_test)[:,0]
     pred_Y=ss.inverse_transform(Y_pred)[:,0]
     
-    rss = str(r2_score(pred_Y,actual_Y)*100)+"%"
+    rss = str(r2_score(pred_Y,actual_Y)*100)
+    rss = rss.split('.')[0]+'.'+rss.split('.')[1][:2]
+    rss = rss+"%"
 
     if pred_Y[len(actual_Y)-1] > pred_Y[len(actual_Y) - 2]:
         action = 'buy'
@@ -203,7 +205,6 @@ def predict_ml(stock_ticker):
     pcor_feature_df = data[["close", "volume", "Rsi", "Macd", "%K"]]
 
     action, acc = svr_predict(pcor_feature_df)
-    acc = round(acc, 2)
 
     return {'Prediction':action, 'Accuracy': acc}
 
