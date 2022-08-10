@@ -226,7 +226,6 @@ def predict_ml_val(stock_ticker):
     pcor_feature_df = data[["close", "volume", "Rsi", "Macd", "%K"]]
 
     action, acc, df = svr_predict(pcor_feature_df, True)
-    acc = round(acc, 2)
 
     return {'Prediction':action, 'Accuracy': acc, 'Data': df}
 
